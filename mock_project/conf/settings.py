@@ -137,7 +137,5 @@ REST_FRAMEWORK = {
 # Okta settings
 AUTH_API_CLIENT_ID = "your_okta_client_id"
 AUTH_ADMIN_CLIENT_ID = "your_okta_admin_client_id"
-AUTH_API_CLIENT_SECRET = (
-    "your_okta_client_secret"
-)
+AUTH_API_CLIENT_SECRET = "your_okta_client_secret"
 AUTH_DOMAIN = "your_okta_domain"

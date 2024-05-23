@@ -1,6 +1,5 @@
 [project]
 name = "django_sso_auth"
-version = "0.1.0"
 description = "Django SSO Auth"
 authors = [
     {name = "godd0t", email = "lirrishala@gmail.com"},
@@ -15,10 +14,20 @@ dependencies = [
 requires-python = ">=3.10"
 readme = "README.md"
 license = {text = "MIT"}
+dynamic = ["version"]
 
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"
+
+[tool.hatch.version]
+path = "django_sso_auth/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["django_sso_auth"]
+
+[tool.hatchling]
+allow-direct-references = true
 
 
 [tool.pdm]
