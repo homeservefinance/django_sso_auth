@@ -1,0 +1,76 @@
+[project]
+name = "django_sso_auth"
+version = "0.1.0"
+description = "Django SSO Auth"
+authors = [
+    {name = "godd0t", email = "lirrishala@gmail.com"},
+]
+dependencies = [
+    "django>=5.0.6",
+    "djangorestframework>=3.15.1",
+    "authlib>=1.3.0",
+    "pyjwt>=2.8.0",
+    "requests>=2.31.0",
+]
+requires-python = ">=3.10"
+readme = "README.md"
+license = {text = "MIT"}
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+
+[tool.pdm]
+distribution = true
+
+[tool.pdm.dev-dependencies]
+dev = [
+    "pytest>=8.2.1",
+    "pytest-django>=4.8.0",
+    "ruff>=0.4.5",
+    "black>=24.4.2",
+    "pytest-sugar>=1.0.0",
+    "coverage[toml]>=7.5.1",
+]
+
+# TESTING
+[tool.pytest.ini_options]
+minversion = "7.0"
+addopts = "-ra -q --force-sugar --no-migrations --reuse-db --log-cli-level=INFO"
+testpaths = [
+    "src/tests",
+    "tests",
+]
+pythonpath = [".", "mock_project"]
+python_files = "tests.py test_*.py *_tests.py"
+DJANGO_SETTINGS_MODULE = "mock_project.conf.settings"
+
+[tool.coverage.run]
+omit = [
+    "*/tests/*",
+    "*/migrations/*",
+    "*/urls.py",
+    "*/settings/*",
+    "*/wsgi.py",
+    "manage.py",
+    "*__init__.py",
+]
+source = ["django_sso_auth"]
+
+# LINTING
+[tool.ruff]
+output-format = "grouped"
+src = ["src"]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+ignore = ["E501"]
+
+[tool.black]
+line-length = 88
+target-version = ['py311']
+extend-exclude = '''
+^(.*/)?migrations/.*$
+'''
