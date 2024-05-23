@@ -6,7 +6,7 @@ User = get_user_model()
 
 class OktaBackend(BaseBackend):
     def authenticate(self, request, token=None):
-        # Your logic to parse token and get user info
+        # Logic to parse token and get user info
         print(f"Token: {token}")
         okta_user_info = token["userinfo"]
         username = okta_user_info["preferred_username"]
