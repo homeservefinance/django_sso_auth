@@ -1,14 +1,14 @@
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from mock_project.app_one.serializers import UserSerializer
+from django_sso_auth.drf.permissions import IsMemberOfGroup
 
 
 class UserProfileView(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
+    permission_classes = [IsAuthenticated, IsMemberOfGroup]
+    required_group = "hs_admin"
 
-    def get(self, request):
-        serializer = UserSerializer(request.user)
-        return Response(serializer.data)
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        return Response({"username": user.username, "email": user.email})
