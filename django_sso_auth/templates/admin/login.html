@@ -1,8 +1,14 @@
 {% extends "admin/login.html" %}
 {% block content %}
 <div>
+    <h2>Login with Okta</h2>
     <form method="get" action="{% url 'okta-auth' %}" style="text-align: center;">
         <input type="submit" value="Login with Okta" style="cursor: pointer;">
     </form>
+</div>
+<hr>
+<div>
+    <h2>Login with Username and Password</h2>
+    {{ block.super }}
 </div>
 {% endblock %}

@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from os import environ as os_environ
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -53,6 +54,7 @@ MIDDLEWARE = [
 ]
 
 AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
     "django_sso_auth.admin.OktaBackend",
 ]
 
@@ -135,8 +137,7 @@ REST_FRAMEWORK = {
 }
 
 # Okta settings
-AUTH_API_CLIENT_ID = "your_okta_client_id"
-AUTH_ADMIN_CLIENT_ID = "your_okta_admin_client_id"
-AUTH_API_CLIENT_SECRET = "your_okta_client_secret"
-AUTH_DOMAIN = "your_okta_domain"
-
+AUTH_API_CLIENT_ID = os_environ.get("AUTH_API_CLIENT_ID")
+AUTH_ADMIN_CLIENT_ID = os_environ.get("AUTH_ADMIN_CLIENT_ID")
+AUTH_API_CLIENT_SECRET = os_environ.get("AUTH_API_CLIENT_SECRET")
+AUTH_DOMAIN = os_environ.get("AUTH_DOMAIN")
