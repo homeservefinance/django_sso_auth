@@ -23,12 +23,18 @@ def django_db_setup(django_db_setup, django_db_blocker):
 
 
 @pytest.fixture
-def user():
-    return User.objects.get(username=username)
+def user_data():
+    return {
+        "username": "testuser",
+        "email": "testuser@example.com",
+    }
 
 
-# Simple test
-def test_user(user):
-    assert user.username == username
-    assert user.email == email
-    assert user.check_password(password)
+@pytest.fixture
+def okta_token(user_data):
+    return {
+        "userinfo": {
+            "preferred_username": user_data["username"],
+            "email": user_data["email"],
+        }
+    }
