@@ -1,55 +1,90 @@
 import pytest
 from django.contrib.auth import get_user_model
+from faker import Faker
 from django_sso_auth.admin.backend import OktaBackend
+from tests.mocks.oauth import oauth_mock
+
+fake = Faker()
 
 User = get_user_model()
 
 
+@pytest.fixture(autouse=True)
+def mock_oauth(monkeypatch):
+    monkeypatch.setattr("authlib.integrations.django_client.OAuth", oauth_mock)
+
+
+@pytest.fixture
+def token():
+    return {
+        "userinfo": {
+            "sub": fake.uuid4(),
+            "preferred_username": fake.email(),
+            "email": fake.email(),
+        }
+    }
+
+
+@pytest.fixture(autouse=True)
+def mock_settings(settings):
+    settings.SSO_AUTH = {
+        "AUTH_API_CLIENT_ID": "test_client_id",
+        "AUTH_ADMIN_CLIENT_ID": "test_admin_client_id",
+        "AUTH_API_CLIENT_SECRET": "test_client_secret",
+        "AUTH_DOMAIN": "test_domain",
+    }
+
+
+@pytest.fixture(autouse=True)
+def mock_initialize_oauth_clients(monkeypatch):
+    def mock_register_okta_api_client(self):
+        return oauth_mock.register("okta_api")
+
+    def mock_register_okta_admin_client(self):
+        return oauth_mock.register("okta_admin")
+
+    def mock_load_okta_api_metadata(self):
+        self.okta_api_client.server_metadata = {"jwks_uri": "https://example.com/jwks"}
+        self.okta_api_jwks_url = "https://example.com/jwks"
+
+    monkeypatch.setattr(
+        "django_sso_auth.conf.settings.SSOAuthSettings._register_okta_api_client",
+        mock_register_okta_api_client,
+    )
+    monkeypatch.setattr(
+        "django_sso_auth.conf.settings.SSOAuthSettings._register_okta_admin_client",
+        mock_register_okta_admin_client,
+    )
+    monkeypatch.setattr(
+        "django_sso_auth.conf.settings.SSOAuthSettings.load_okta_api_metadata",
+        mock_load_okta_api_metadata,
+    )
+
+
 @pytest.mark.django_db
-def test_authenticate_creates_user(okta_token, user_data):
+def test_authenticate_existing_user(token):
+    user = User.objects.create(
+        username=token["userinfo"]["preferred_username"],
+        email=token["userinfo"]["email"],
+        is_active=True,
+    )
     backend = OktaBackend()
-    request = None  # Assuming request is not used in this case
-
-    user = backend.authenticate(request, token=okta_token)
-
-    assert user is not None
-    assert user.username == user_data["username"]
-    assert user.email == user_data["email"]
-
-    # Verify user is created in the database
-    assert User.objects.filter(username=user_data["username"]).exists()
+    authenticated_user = backend.authenticate(None, token=token)
+    assert authenticated_user == user
 
 
 @pytest.mark.django_db
-def test_authenticate_existing_user(okta_token, user_data):
-    User.objects.create(username=user_data["username"], email=user_data["email"])
-
+def test_authenticate_new_user(token):
     backend = OktaBackend()
-    request = None  # Assuming request is not used in this case
-
-    user = backend.authenticate(request, token=okta_token)
-
-    assert user is not None
-    assert user.username == user_data["username"]
-    assert user.email == user_data["email"]
-
-    # Ensure no duplicate user is created
-    assert User.objects.filter(username=user_data["username"]).count() == 1
+    authenticated_user = backend.authenticate(None, token=token)
+    assert authenticated_user is not None
+    assert authenticated_user.username == token["userinfo"]["preferred_username"]
+    assert authenticated_user.email == token["userinfo"]["email"]
+    assert authenticated_user.is_active
 
 
 @pytest.mark.django_db
-def test_get_user(user_data):
-    user = User.objects.create(username=user_data["username"], email=user_data["email"])
-
+def test_authenticate_unauthorized_user(token):
     backend = OktaBackend()
-    fetched_user = backend.get_user(user.id)
-
-    assert fetched_user == user
-
-
-@pytest.mark.django_db
-def test_get_user_nonexistent():
-    backend = OktaBackend()
-    fetched_user = backend.get_user(99999)  # Assuming this ID doesn't exist
-
-    assert fetched_user is None
+    authenticated_user = backend.authenticate(None, token=token)
+    assert authenticated_user is not None

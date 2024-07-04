@@ -1,5 +1,11 @@
 import pytest
 from django.contrib.auth import get_user_model
+import logging
+
+
+def pytest_configure(config):
+    logging.basicConfig(level=logging.DEBUG)
+
 
 username = "test_admin"
 password = "test_admin"

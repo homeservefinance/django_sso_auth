@@ -1,5 +1,3 @@
-from django_sso_auth.conf.settings import SSOAuthSettings
+from .settings import sso_auth_settings
 
-sso_settings = SSOAuthSettings()
-
-__all__ = ["sso_settings"]
+__all__ = ["sso_auth_settings"]

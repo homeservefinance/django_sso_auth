@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.exceptions import AuthenticationFailed
 import jwt
 from jwt import PyJWKClient, ExpiredSignatureError, InvalidTokenError
-from django_sso_auth.conf import sso_settings
+from django_sso_auth.conf import sso_auth_settings
 
 User = get_user_model()
 
@@ -36,15 +36,15 @@ class TokenAuthentication(BaseAuthentication):
     @staticmethod
     def verify_token_with_okta(token):
         try:
-            jwks_url = sso_settings.okta_api_jwks_url
+            jwks_url = sso_auth_settings.okta_api_jwks_url
             jwk_client = PyJWKClient(jwks_url)
             signing_key = jwk_client.get_signing_key_from_jwt(token)
             audience = "api://default"
-            issuer = sso_settings.okta_api_client.server_metadata.get("issuer")
+            issuer = sso_auth_settings.okta_api_client.server_metadata.get("issuer")
             claims = jwt.decode(
                 token,
                 signing_key.key,
-                algorithms=sso_settings.AUTH_ALGORITHMS,
+                algorithms=sso_auth_settings.AUTH_ALGORITHMS,
                 audience=audience,
                 issuer=issuer,
             )
