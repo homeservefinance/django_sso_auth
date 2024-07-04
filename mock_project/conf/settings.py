@@ -133,7 +133,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": ("django_sso_auth.drf.TokenAuthentication",),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("django_sso_auth.drf.OktaJWTAuthentication",),
 }
 
 # Okta settings

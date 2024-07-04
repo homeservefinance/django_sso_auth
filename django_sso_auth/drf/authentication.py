@@ -8,7 +8,7 @@ from django_sso_auth.conf import sso_auth_settings
 User = get_user_model()
 
 
-class TokenAuthentication(BaseAuthentication):
+class OktaJWTAuthentication(BaseAuthentication):
     def authenticate(self, request):
         authorization = request.headers.get("Authorization")
         if not authorization or not authorization.startswith("Bearer "):
@@ -36,6 +36,7 @@ class TokenAuthentication(BaseAuthentication):
     @staticmethod
     def verify_token_with_okta(token):
         try:
+            sso_auth_settings.load_okta_api_metadata()
             jwks_url = sso_auth_settings.okta_api_jwks_url
             jwk_client = PyJWKClient(jwks_url)
             signing_key = jwk_client.get_signing_key_from_jwt(token)

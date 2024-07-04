@@ -38,7 +38,7 @@ AUTH_DOMAIN = "your_okta_domain"
 # This is required for the Django REST framework
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "django_sso_auth.drf.TokenAuthentication",
+        "django_sso_auth.drf.OktaJWTAuthentication",
     ],
 }
 ```
