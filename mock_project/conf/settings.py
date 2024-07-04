@@ -137,7 +137,30 @@ REST_FRAMEWORK = {
 }
 
 # Okta settings
-AUTH_API_CLIENT_ID = os_environ.get("AUTH_API_CLIENT_ID")
-AUTH_ADMIN_CLIENT_ID = os_environ.get("AUTH_ADMIN_CLIENT_ID")
-AUTH_API_CLIENT_SECRET = os_environ.get("AUTH_API_CLIENT_SECRET")
-AUTH_DOMAIN = os_environ.get("AUTH_DOMAIN")
+SSO_AUTH = {
+    "AUTH_API_CLIENT_ID": os_environ.get("AUTH_API_CLIENT_ID"),
+    "AUTH_ADMIN_CLIENT_ID": os_environ.get("AUTH_ADMIN_CLIENT_ID"),
+    "AUTH_API_CLIENT_SECRET": os_environ.get("AUTH_API_CLIENT_SECRET"),
+    "AUTH_DOMAIN": os_environ.get("AUTH_DOMAIN"),
+}
+
+
+# Logging
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+    },
+    "django_sso_auth": {
+        "handlers": ["console"],
+        "level": "DEBUG",
+        "propagate": True,
+    },
+}
