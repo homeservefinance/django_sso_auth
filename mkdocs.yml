@@ -1,0 +1,85 @@
+site_name: Django SSO Auth
+site_description: Django SSO Auth is a Django package that provides Single Sign-On (SSO) admin authentication and bearer token authentication for Django Rest Framework.
+site_url: https://github.com/homeservefinance/django_sso_auth
+theme:
+  name: material
+  custom_dir: docs/overrides
+  features:
+    - announce.dismiss
+    - navigation.footer
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.copy
+    - header.autohide
+  palette:
+  - media: '(prefers-color-scheme: light)'
+    scheme: default
+    primary: deep purple
+    accent: light blue
+    toggle:
+      icon: material/brightness-7
+      name: Switch to light mode
+  - media: '(prefers-color-scheme: dark)'
+    scheme: slate
+    primary: deep purple
+    accent: light blue
+    toggle:
+      icon: material/brightness-4
+      name: Switch to dark mode
+  icon:
+    repo: fontawesome/brands/github-alt
+  logo: assets/img/logo-t.png
+  favicon: assets/img/favicon.ico
+repo_name: homeservefinance/django_sso_auth
+repo_url: https://github.com/homeservefinance/django_sso_auth
+nav:
+  - Introduction: index.md
+  - Features:
+      - Django Admin Single Sign-On (SSO): features/sso.md
+      - DRF Bearer Token Authentication: features/bearer_token.md
+  - Components:
+      - Core: components/core/README.md
+      - Additional: components/additional/README.md
+  - Tutorial:
+      - Step 1: tutorial/step_1.md
+      - Step 2: tutorial/step_2.md
+      - Step 3: tutorial/step_3.md
+      - Step 4: tutorial/step_4.md
+      - Step 5: tutorial/step_5.md
+  - About:
+      - FAQs: faqs.md
+      - Contributing: contributing.md
+      - Changelog: changelog.md
+plugins:
+  - search:
+      separator: '[\s\-,:!=\[\]()"/]+|(?!\b)(?=[A-Z][a-z])|\.(?!\d)|&[lg]t;'
+  - mkdocstrings
+  - offline
+markdown_extensions:
+- toc:
+    permalink: true
+- markdown.extensions.codehilite:
+    guess_lang: false
+- mdx_include:
+    base_path: docs
+- admonition
+- codehilite
+- extra
+- pymdownx.snippets
+- pymdownx.superfences:
+    custom_fences:
+    - name: mermaid
+      class: mermaid
+      format: !!python/name:pymdownx.superfences.fence_code_format ''
+- pymdownx.tabbed:
+    alternate_style: true
+- attr_list
+- md_in_html
+extra_css:
+- assets/css/termynal.css
+- assets/css/custom.css
+extra_javascript:
+- assets/js/termynal.js
+- assets/js/custom.js
