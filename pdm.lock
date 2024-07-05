@@ -5,7 +5,7 @@
 groups = ["default", "dev", "docs"]
 strategy = ["cross_platform", "inherit_metadata"]
 lock_version = "4.4.2"
-content_hash = "sha256:9b8034088076179e009a08993f0b92815bece36f12cc10a37931e303ea99c6e3"
+content_hash = "sha256:0e4aec7bcd60d002a9abaaa6e1fcf8b6e282db7fdb81d4bb580a910f04a41bfe"
 
 [[package]]
 name = "asgiref"
@@ -348,16 +348,6 @@ files = [
 ]
 
 [[package]]
-name = "cyclic"
-version = "1.0.0"
-summary = "Handle cyclic relations"
-groups = ["docs"]
-files = [
-    {file = "cyclic-1.0.0-py3-none-any.whl", hash = "sha256:32d8181d7698f426bce6f14f4c3921ef95b6a84af9f96192b59beb05bc00c3ed"},
-    {file = "cyclic-1.0.0.tar.gz", hash = "sha256:ecddd56cb831ee3e6b79f61ecb0ad71caee606c507136867782911aa01c3e5eb"},
-]
-
-[[package]]
 name = "django"
 version = "5.0.6"
 requires_python = ">=3.10"
@@ -539,21 +529,6 @@ files = [
     {file = "MarkupSafe-2.1.5-cp312-cp312-win32.whl", hash = "sha256:8590b4ae07a35970728874632fed7bd57b26b0102df2d2b233b6d9d82f6c62ad"},
     {file = "MarkupSafe-2.1.5-cp312-cp312-win_amd64.whl", hash = "sha256:823b65d8706e32ad2df51ed89496147a42a2a6e01c13cfb6ffb8b1e92bc910bb"},
     {file = "MarkupSafe-2.1.5.tar.gz", hash = "sha256:d283d37a890ba4c1ae73ffadf8046435c76e7bc2247bbb63c00bd1a709c6544b"},
-]
-
-[[package]]
-name = "mdx-include"
-version = "1.4.2"
-summary = "Python Markdown extension to include local or remote files"
-groups = ["docs"]
-dependencies = [
-    "Markdown>=2.6",
-    "cyclic",
-    "rcslice>=1.1.0",
-]
-files = [
-    {file = "mdx_include-1.4.2-py3-none-any.whl", hash = "sha256:cfbeadd59985f27a9b70cb7ab0a3d209892fe1bb1aa342df055e0b135b3c9f34"},
-    {file = "mdx_include-1.4.2.tar.gz", hash = "sha256:992f9fbc492b5cf43f7d8cb4b90b52a4e4c5fdd7fd04570290a83eea5c84f297"},
 ]
 
 [[package]]
@@ -930,16 +905,6 @@ dependencies = [
 files = [
     {file = "pyyaml_env_tag-0.1-py3-none-any.whl", hash = "sha256:af31106dec8a4d68c60207c1886031cbf839b68aa7abccdb19868200532c2069"},
     {file = "pyyaml_env_tag-0.1.tar.gz", hash = "sha256:70092675bda14fdec33b31ba77e7543de9ddc88f2e5b99160396572d11525bdb"},
-]
-
-[[package]]
-name = "rcslice"
-version = "1.1.0"
-summary = "Slice a list of sliceables (1 indexed, start and end index both are inclusive) "
-groups = ["docs"]
-files = [
-    {file = "rcslice-1.1.0-py3-none-any.whl", hash = "sha256:1b12fc0c0ca452e8a9fd2b56ac008162f19e250906a4290a7e7a98be3200c2a6"},
-    {file = "rcslice-1.1.0.tar.gz", hash = "sha256:a2ce70a60690eb63e52b722e046b334c3aaec5e900b28578f529878782ee5c6e"},
 ]
 
 [[package]]
