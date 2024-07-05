@@ -1,9 +1,10 @@
 import logging
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import BaseBackend
 
-User = get_user_model()
 logger = logging.getLogger(__name__)
+User = get_user_model()
 
 
 class OktaBackend(BaseBackend):
@@ -23,14 +24,17 @@ class OktaBackend(BaseBackend):
                 return None
 
             user, created = User.objects.get_or_create(
-                username=username, defaults={"email": email, "is_active": True}
+                username=username,
+                defaults={
+                    "email": email,
+                    "is_active": True,
+                    "is_staff": True,
+                    "is_superuser": True,
+                },
             )
 
             if created:
                 logger.info(f"Created new user: {username}")
-
-            # For testing purposes, let's consider all users as authorized
-            # In a real scenario, you'd implement proper authorization checks here
             return user
 
         except Exception as e:

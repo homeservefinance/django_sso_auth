@@ -1,10 +1,14 @@
-from rest_framework.authentication import BaseAuthentication
+import logging
+
 from django.contrib.auth import get_user_model
+from jwt import ExpiredSignatureError, InvalidTokenError, PyJWKClient
+from jwt import decode as jwt_decode
+from rest_framework.authentication import BaseAuthentication
 from rest_framework.exceptions import AuthenticationFailed
-import jwt
-from jwt import PyJWKClient, ExpiredSignatureError, InvalidTokenError
+
 from django_sso_auth.conf import sso_auth_settings
 
+logger = logging.getLogger(__name__)
 User = get_user_model()
 
 
@@ -23,13 +27,16 @@ class OktaJWTAuthentication(BaseAuthentication):
     def authenticate_credentials(self, token):
         try:
             user_info = self.verify_token_with_okta(token)
-            print(f"User info: {user_info}")
-            user, _ = User.objects.get_or_create(
-                username=user_info["sub"], defaults={"email": user_info["sub"]}
+            user, created = User.objects.get_or_create(
+                username=user_info["sub"],
+                defaults={
+                    "email": user_info["email"],
+                    "is_active": True,
+                    "is_staff": True,
+                    "is_superuser": True,
+                },
             )
             return user, user_info
-        except User.DoesNotExist:
-            raise AuthenticationFailed("No such user")
         except Exception as e:
             raise AuthenticationFailed(f"Failed to authenticate: {str(e)}")
 
@@ -42,7 +49,7 @@ class OktaJWTAuthentication(BaseAuthentication):
             signing_key = jwk_client.get_signing_key_from_jwt(token)
             audience = "api://default"
             issuer = sso_auth_settings.okta_api_client.server_metadata.get("issuer")
-            claims = jwt.decode(
+            claims = jwt_decode(
                 token,
                 signing_key.key,
                 algorithms=sso_auth_settings.AUTH_ALGORITHMS,

@@ -1,8 +1,7 @@
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-from rest_framework.response import Response
-
 from django_sso_auth.drf.permissions import IsMemberOfGroup
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 
 class UserProfileView(APIView):

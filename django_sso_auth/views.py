@@ -1,9 +1,11 @@
+import logging
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.shortcuts import redirect
 from django.urls import reverse
+
 from django_sso_auth.conf import sso_auth_settings
-import logging
 
 logger = logging.getLogger(__name__)
 

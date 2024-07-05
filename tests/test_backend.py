@@ -1,7 +1,8 @@
 import pytest
 from django.contrib.auth import get_user_model
-from faker import Faker
 from django_sso_auth.admin.backend import OktaBackend
+from faker import Faker
+
 from tests.mocks.oauth import oauth_mock
 
 fake = Faker()

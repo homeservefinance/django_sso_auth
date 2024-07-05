@@ -16,8 +16,7 @@ Including another URLconf
 """
 
 from django.contrib import admin
-from django.urls import path, include
-
+from django.urls import include, path
 from mock_project.app_one.views import UserProfileView
 
 urlpatterns = [

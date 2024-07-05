@@ -76,6 +76,9 @@ line-length = 88
 target-version = "py311"
 
 [tool.ruff.lint]
+select = [
+    "I001",  # Enable isort-like import sorting rule
+]
 ignore = ["E501"]
 
 [tool.black]
