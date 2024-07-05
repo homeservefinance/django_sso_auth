@@ -1,54 +1,64 @@
-# Django SSO Authentication - WIP
+# Django SSO Auth
 
-This is a Django application that provides Okta Single Sign-On (SSO) authentication for HomeServe Django projects.
+Welcome to the documentation for `django_sso_auth`, a Django package designed to provide seamless Single Sign-On (SSO) authentication using Okta. This package aims to simplify the integration of Okta SSO into your Django applications, ensuring secure and efficient user authentication and session management.
 
+## Overview
+
+`django_sso_auth` is a comprehensive solution for integrating Okta SSO into Django projects. It provides the necessary tools and configurations to authenticate users via Okta, manage user sessions, and ensure secure access to your Django admin and API endpoints.
+
+## Key Features
+
+- **Okta SSO Integration**: Easily integrate Okta SSO for user authentication.
+- **Custom Authentication Backends**: Provides custom authentication backends for Django and Django REST Framework.
+- **Token Verification**: Securely verify JWT tokens issued by Okta.
+- **User Management**: Automatically create and manage user accounts based on Okta claims.
 ## Installation
 
-Since this is a private repository, you need to add the following to your `requirements.txt` file:
+To install `django_sso_auth`, run the following command:
 
-```txt
--e git+
-    git://github.com/homeserve/django-sso-authentication.git@master#egg=django-sso-authentication
+<div class="termy">
+
+```console
+$ pip install git+https://github.com/homeservefinance/django_sso_auth
+
+---> 100%
 ```
 
-Then run:
-
-```bash
-pip install -r requirements.txt
-```
+</div>
 
 ## Configuration
 
-Add the following to your Django `settings.py`:
+Update your `settings.py` with the necessary Okta settings:
 
 ```python
-# This is required for the Django admin site
+SSO_AUTH = {
+    'AUTH_API_CLIENT_ID': 'your-okta-api-client-id',
+    'AUTH_ADMIN_CLIENT_ID': 'your-okta-admin-client-id',
+    'AUTH_API_CLIENT_SECRET': 'your-okta-api-client-secret',
+    'AUTH_DOMAIN': 'your-okta-domain',
+    'AUTH_ALGORITHMS': ['RS256'],
+    'OAUTH_CLASS': 'authlib.integrations.django_client.OAuth',
+}
+
+# Add the authentication backends
 AUTHENTICATION_BACKENDS = [
-    "django_sso_auth.admin.OktaBackend",
+    'django_sso_auth.admin.backend.OktaBackend',
+    # other backends
 ]
 
-
-
-# These settings are required for the Okta SSO authentication to work
-AUTH_API_CLIENT_ID = "your_okta_client_id"
-AUTH_ADMIN_CLIENT_ID = "your_okta_admin_client_id"
-AUTH_API_CLIENT_SECRET = "your_okta_client_secret"
-AUTH_DOMAIN = "your_okta_domain"
-
-# This is required for the Django REST framework
+# Add the DRF authentication class
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": [
-        "django_sso_auth.drf.OktaJWTAuthentication",
-    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'django_sso_auth.drf.authentication.OktaJWTAuthentication',
+        # other classes
+    ),
 }
 ```
 
-Add the following to your Django `urls.py`:
+## Quick Start
 
-```python
-from django.urls import path, include
+WIP
 
-urlpatterns = [
-    path('sso/', include('django_sso_auth.urls')),
-]
-```
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
