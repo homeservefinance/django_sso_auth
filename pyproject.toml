@@ -60,15 +60,15 @@ dev = [
     "coverage[toml]>=7.5.1",
     "faker>=26.0.0",
 ]
-
-# TESTING
 docs = [
     "mkdocs-material>=9.5.28",
     "mkdocstrings-python>=1.10.5",
     "markdown-include>=0.8.1",
     "pymdown-extensions>=10.8.1",
     "mkdocs-markdownextradata-plugin>=0.2.5",
+    "mdx-include>=1.4.2",
 ]
+
 [tool.pytest.ini_options]
 minversion = "7.0"
 addopts = "-ra -q --force-sugar --no-migrations --reuse-db --log-cli-level=INFO"

@@ -63,7 +63,7 @@ jobs:
             mkdocs-material-
 
       - name: Install MkDocs and Material theme
-        run: pip install mkdocs-material
+        run: pip install mkdocs-material mkdocstrings-python markdown-include pymdown-extensions mkdocs-markdownextradata-plugin mdx-include
 
       - name: Deploy Documentation to GitHub Pages
         run: mkdocs gh-deploy --force
