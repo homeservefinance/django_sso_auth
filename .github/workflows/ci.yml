@@ -25,8 +25,12 @@ jobs:
 
       - name: Lint with ruff and black
         run: |
-          make lint
+          pdm run lint
+
+      - name: Format with ruff and black
+        run: |
+          pdm run format
 
       - name: Test with pytest
         run: |
-          make test
+          pdm run test

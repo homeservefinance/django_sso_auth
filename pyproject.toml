@@ -33,6 +33,23 @@ allow-direct-references = true
 [tool.pdm]
 distribution = true
 
+[tool.pdm.scripts]
+
+# Linting
+ruff_lint = "ruff check django_sso_auth tests mock_project"
+black_lint = "black --check django_sso_auth tests mock_project"
+lint = {composite = ["ruff_lint", "black_lint"]}
+
+# Formatting
+ruff_format = "ruff check django_sso_auth tests mock_project --fix"
+black_format = "black django_sso_auth tests mock_project"
+format = {composite = ["ruff_format", "black_format"]}
+
+# Testing
+coverage_run = "coverage run -m pytest"
+coverage_report = "coverage report -m --skip-covered"
+test = {composite = ["coverage_run", "coverage_report"]}
+
 [tool.pdm.dev-dependencies]
 dev = [
     "pytest>=8.2.1",
