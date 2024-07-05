@@ -3,7 +3,6 @@ site_description: Django SSO Auth is a Django package that provides Single Sign-
 site_url: https://github.com/homeservefinance/django_sso_auth
 theme:
   name: material
-  custom_dir: docs/overrides
   features:
     - announce.dismiss
     - navigation.footer
