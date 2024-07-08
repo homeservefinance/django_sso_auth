@@ -31,6 +31,12 @@ $ pip install git+https://github.com/homeservefinance/django_sso_auth
 Update your `settings.py` with the necessary Okta settings:
 
 ```python
+
+INSTALLED_APPS = [
+    'django_sso_auth', # Add at the top of the list if you want to override the default admin login page
+    # other apps
+]
+
 SSO_AUTH = {
     'AUTH_API_CLIENT_ID': 'your-okta-api-client-id',
     'AUTH_ADMIN_CLIENT_ID': 'your-okta-admin-client-id',
@@ -53,6 +59,17 @@ REST_FRAMEWORK = {
         # other classes
     ),
 }
+```
+
+Update your `urls.py` to include the `django_sso_auth` URLs:
+
+```python
+from django.urls import path, include
+
+urlpatterns = [
+    path('', include('django_sso_auth.urls')),
+    # other URLs
+]
 ```
 
 ## Quick Start
