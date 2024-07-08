@@ -41,7 +41,7 @@ lint = {composite = ["ruff_lint"]} # Keep this line if needed to add more lintin
 
 # Formatting
 ruff_format = "ruff format django_sso_auth tests mock_project"
-format = {composite = ["ruff_format", "black_format"]}
+format = {composite = ["ruff_format"]}
 
 # Testing
 coverage_run = "coverage run -m pytest"
