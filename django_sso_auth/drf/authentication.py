@@ -27,10 +27,11 @@ class OktaJWTAuthentication(BaseAuthentication):
     def authenticate_credentials(self, token):
         try:
             user_info = self.verify_token_with_okta(token)
+            email = user_info.get("sub")
             user, created = User.objects.get_or_create(
-                username=user_info["sub"],
+                username=email,
                 defaults={
-                    "email": user_info["email"],
+                    "email": email,
                     "is_active": True,
                     "is_staff": True,
                     "is_superuser": True,
