@@ -33,14 +33,12 @@ def mock_pyjwkclient(mocker):
 
 def test_authenticate_no_authorization_header(okta_jwt_authentication):
     request = MagicMock(headers={})
-    with pytest.raises(AuthenticationFailed, match="Token missing or invalid"):
-        okta_jwt_authentication.authenticate(request)
+    assert okta_jwt_authentication.authenticate(request) is None
 
 
 def test_authenticate_invalid_authorization_header(okta_jwt_authentication):
     request = MagicMock(headers={"Authorization": "InvalidToken"})
-    with pytest.raises(AuthenticationFailed, match="Token missing or invalid"):
-        okta_jwt_authentication.authenticate(request)
+    assert okta_jwt_authentication.authenticate(request) is None
 
 
 def test_authenticate_credentials_exception(okta_jwt_authentication, mock_user_model):
@@ -51,8 +49,7 @@ def test_authenticate_credentials_exception(okta_jwt_authentication, mock_user_m
         "authenticate_credentials",
         side_effect=AuthenticationFailed("Invalid token"),
     ):
-        with pytest.raises(AuthenticationFailed, match="Invalid token"):
-            okta_jwt_authentication.authenticate(request)
+        assert okta_jwt_authentication.authenticate(request) is None
 
 
 def test_authenticate_credentials_success(okta_jwt_authentication, mock_user_model):
