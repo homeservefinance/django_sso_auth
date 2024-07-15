@@ -16,12 +16,15 @@ class OktaJWTAuthentication(BaseAuthentication):
     def authenticate(self, request):
         authorization = request.headers.get("Authorization")
         if not authorization or not authorization.startswith("Bearer "):
-            raise AuthenticationFailed("Token missing or invalid")
+            return None
 
         token = authorization.split(" ")[1]
-        user, user_info = self.authenticate_credentials(token)
-        if not user:
-            raise AuthenticationFailed("Invalid token")
+        try:
+            user, user_info = self.authenticate_credentials(token)
+        except AuthenticationFailed as e:
+            # if we are used in a list of authentications we should return None
+            # then django will try the next authentication method
+            return None
         return user, user_info
 
     def authenticate_credentials(self, token):
